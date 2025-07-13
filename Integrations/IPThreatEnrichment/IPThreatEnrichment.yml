@@ -1,0 +1,11 @@
+commonfields:
+  id: IPThreatEnrichment
+  version: -1
+type: python
+subtype: python3
+name: IPThreatEnrichment
+display: IP Threat Enrichment
+category: Data Enrichment & Threat Intelligence
+script: ""
+comment: |-
+  Fetches threat intel for an IP address using AbuseIPDB.
