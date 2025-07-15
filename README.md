@@ -120,3 +120,25 @@ This project demonstrates my understanding of SOAR principles and readiness to b
 ## Security Note
 
 This project avoids hardcoded credentials. API keys are stored and retrieved using `keyring` for secure local development. Inputs for the CLI version are validated using `ipaddress`.
+
+---
+
+## Playbooks Overview
+
+This project includes several YAML-formatted playbooks that simulate how threat enrichment workflows could be automated within Cortex XSOAR:
+
+- Playbooks/playbookIPEnrichment.yml
+
+This playbook represents a basic automation sequence for enriching a single IP address. It calls the IPThreatEnrichment integration and saves the result. Useful for small-scale testing or a manual trigger on specific indicators.
+
+- Playbooks/playbookBatchIPEnrichment.yml
+
+Designed for bulk processing, this playbook takes a list of IP addresses and iteratively enriches each one. It's suitable for use cases where multiple IOCs (Indicators of Compromise) are ingested at once—e.g., from a SIEM alert or an external feed.
+
+- Playbooks/playbookMaliciousIPDecision.yml
+
+This playbook builds on the enrichment logic to include conditional decision-making. After enrichment, it evaluates the threat score or threat intelligence returned and performs an action (e.g., escalate, notify, or block) if the IP is deemed malicious. This mirrors real-world SOAR decision logic.
+
+- Local-Simulation/mockPlaybook.yml
+
+A simplified simulation of a playbook that demonstrates how input validation and enrichment could be chained together in a local test environment. This is useful for showcasing the structure and logic of a playbook even outside of XSOAR.
