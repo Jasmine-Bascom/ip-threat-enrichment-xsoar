@@ -1,8 +1,17 @@
+#!/usr/bin/env python3
 import requests
 import keyring
+import ipaddress
 
 # For real XSOAR use, you'll need this SDK:
 # from CommonServerPython import *  ← Normally imported in XSOAR
+
+def is_valid_ip(ip_str):
+    try:
+        ipaddress.ip_address(ip_str)
+        return True
+    except ValueError:
+        return False
 
 def ip_enrich_command(ip: str):
     api_key = keyring.get_password("xsoar", "abuseipdb_api_key")
@@ -35,10 +44,15 @@ def main():
 
         # For local testing, use this:
         import sys
-        ip = sys.argv[1] if len(sys.argv) > 1 else None
+        if len(sys.argv) < 2:
+            print("Usage: python IPThreatEnrichment.py <IP_ADDRESS>")
+            sys.exit(1)
 
-        if not ip:
-            raise ValueError("Missing IP address argument.")
+        ip = sys.argv[1]
+
+        if not is_valid_ip(ip):
+            print(f"Error: '{ip}' is not a valid IP address.")
+            sys.exit(1)
 
         result = ip_enrich_command(ip)
 
