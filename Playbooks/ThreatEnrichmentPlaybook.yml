@@ -1,29 +1,70 @@
-id: ThreatEnrichmentPlaybook
-version: -1
+commonfields:
+  id: IP Threat Enrichment Playbook
+  version: -1
+name: IP Threat Enrichment Playbook
+description: |
+  This playbook performs IP threat enrichment using a custom integration.
+  It validates the input, calls the enrichment script, and stores the results.
+
 type: playbook
-name: Threat Enrichment and Triage
-description: Simulated XSOAR playbook to enrich IP addresses and raise alerts based on risk score.
+tags: [Enrichment, Threat Intelligence]
+inputs:
+  - key: IPAddress
+    value: {}
+    required: true
+    description: "IP address to enrich"
+
 tasks:
   "1":
     id: 1
     task:
-      id: enrich_ip
+      id: 1
+      version: -1
+      name: Validate IP Address
       type: regular
-      script: IPThreatEnrichment
+      script: Builtin|||IsIPValid
       scriptarguments:
-        ip: "${inputs.ip}"
+        value:
+          simple: ${inputs.IPAddress}
+      type: condition
     nexttasks:
-      '#none#': [2]
+      "#default#": [99]  # Exit playbook if invalid
+      "yes": [2]
+
   "2":
     id: 2
     task:
-      id: condition
-      type: condition
-      description: Check if risk score is high
-      script: Builtin|||greaterThan
+      id: 2
+      version: -1
+      name: Enrich IP via Custom Integration
+      type: regular
+      script: IPThreatEnrichment|||ip-enrich
       scriptarguments:
-        left: "${IPThreatEnrichment.RiskScore}"
-        right: "60"
+        ip:
+          simple: ${inputs.IPAddress}
     nexttasks:
-      '#default#': []
-      "yes": []
+      "": [3]
+
+  "3":
+    id: 3
+    task:
+      id: 3
+      version: -1
+      name: Save Enrichment Results
+      type: regular
+      script: Builtin|||SaveResults
+      scriptarguments:
+        results:
+          simple: ${lastCompletedTask}
+    nexttasks:
+      "": []
+
+  "99":
+    id: 99
+    task:
+      id: 99
+      version: -1
+      name: Exit: Invalid IP
+      type: title
+    nexttasks:
+      "": []
