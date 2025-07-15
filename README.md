@@ -90,15 +90,15 @@ This demo was developed without access to a full Cortex XSOAR instance, but it f
 
 With access to a production XSOAR environment, I would expand this project by:
 
-    Packaging the script as a full custom integration using XSOAR’s integration framework
+- Packaging the script as a full custom integration using XSOAR’s integration framework
 
-    Creating a visual playbook to automate IP enrichment and incident handling
+- Creating a visual playbook to automate IP enrichment and incident handling
 
-    Connecting to live data sources (e.g., SIEM, EDR) to trigger the enrichment automatically
+- Connecting to live data sources (e.g., SIEM, EDR) to trigger the enrichment automatically
 
-    Storing results in incident fields and tracking enrichment metrics
+- Storing results in incident fields and tracking enrichment metrics
 
-    Supporting full end-to-end testing in the XSOAR UI
+- Supporting full end-to-end testing in the XSOAR UI
 
 This project demonstrates my understanding of SOAR principles and readiness to build scalable automations in a production environment.
 
