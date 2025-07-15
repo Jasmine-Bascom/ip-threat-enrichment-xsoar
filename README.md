@@ -75,12 +75,24 @@ To adapt fully into XSOAR:
 ## File Structure
 
 ```
-Integrations/
-└── IPThreatEnrichment/
-    ├── IPThreatEnrichment.py      # Main logic and CLI-compatible main()
-    └── IPThreatEnrichment.yml     # XSOAR integration metadata
-Playbooks/
-└── ThreatEnrichmentPlaybook.yml  # Simulated playbook calling the integration
+ip-threat-enrichment-xsoar/
+├── Integrations/
+│   └── IPThreatEnrichment/
+│       └── IPThreatEnrichment.py
+├── Local-Simulation/
+│   └── mockPlaybook.yml
+├── Playbooks/
+│   ├── playbookBatchIPEnrichment.yml
+│   ├── playbookIPEnrichment.yml
+│   └── playbookMaliciousIPDecision.yml
+├── README.md
+├── requirements.txt
+└── venv/
+    ├── bin/
+    ├── include/
+    ├── lib/
+    └── pyvenv.cfg
+
 ```
 
 ---
