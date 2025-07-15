@@ -1,0 +1,87 @@
+id: Malicious_IP_Decision
+version: -1
+name: Malicious IP Decision
+description: Identify if an IP is malicious and raise alert or ticket.
+fromversion: 6.0.0
+tasks:
+  "1":
+    id: "1"
+    taskid: enrichment
+    type: playbook
+    task:
+      id: enrichment
+      version: -1
+      name: Run IP Enrichment
+      type: playbook
+      playbookName: IP Enrichment
+    scriptarguments:
+      ip:
+        simple: ${inputs.ip}
+    nexttasks:
+      '#none#':
+        - "2"
+  "2":
+    id: "2"
+    taskid: condition_check
+    type: condition
+    task:
+      id: condition_check
+      version: -1
+      name: Is IP malicious?
+      type: condition
+    conditions:
+      - label: yes
+        condition:
+          - - operator: containsString
+              left:
+                value: ${IPThreatEnrichment.Response}
+                iscontext: true
+              right:
+                value: "malicious"
+      - label: no
+        condition:
+          - - operator: notContainsString
+              left:
+                value: ${IPThreatEnrichment.Response}
+                iscontext: true
+              right:
+                value: "malicious"
+    nexttasks:
+      yes:
+        - "3"
+      no:
+        - "4"
+  "3":
+    id: "3"
+    taskid: alert_task
+    type: regular
+    task:
+      id: alert_task
+      version: -1
+      name: Create Alert
+      script: Builtin|||send-mail
+      type: regular
+    scriptarguments:
+      subject:
+        simple: Malicious IP Detected
+      body:
+        simple: IP ${inputs.ip} was flagged as malicious.
+    nexttasks:
+      '#none#': []
+  "4":
+    id: "4"
+    taskid: end_task
+    type: title
+    task:
+      id: end_task
+      version: -1
+      name: Done
+      type: title
+    nexttasks: {}
+inputs:
+  - key: ip
+    value: {}
+    required: true
+    description: IP address to check
+    playbookInputQuery:
+outputs: []

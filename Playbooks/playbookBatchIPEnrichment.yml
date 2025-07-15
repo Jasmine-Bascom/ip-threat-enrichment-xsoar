@@ -1,0 +1,44 @@
+id: Batch_IP_Enrichment
+version: -1
+name: Batch IP Enrichment
+description: Loop through a list of IPs and perform enrichment on each.
+fromversion: 6.0.0
+tasks:
+  "1":
+    id: "1"
+    taskid: start_loop
+    type: collection
+    task:
+      id: start_loop
+      version: -1
+      name: For Each IP
+      type: collection
+    collection:
+      mode: iterate
+      items:
+        simple: ${inputs.ip_list}
+    nexttasks:
+      '#none#':
+        - "2"
+  "2":
+    id: "2"
+    taskid: enrichment
+    type: playbook
+    task:
+      id: enrichment
+      version: -1
+      name: Run IP Enrichment
+      type: playbook
+      playbookName: IP Enrichment
+    scriptarguments:
+      ip:
+        simple: ${item}
+    nexttasks:
+      '#none#': []
+inputs:
+  - key: ip_list
+    value: {}
+    required: true
+    description: List of IPs to enrich
+    playbookInputQuery:
+outputs: []

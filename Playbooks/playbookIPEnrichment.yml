@@ -1,0 +1,41 @@
+id: IP_Enrichment
+version: -1
+name: IP Enrichment
+description: Enrich a single IP address with threat intel data.
+fromversion: 6.0.0
+tasks:
+  "1":
+    id: "1"
+    taskid: ip_enrichment_task
+    type: regular
+    task:
+      id: ip_enrichment_task
+      version: -1
+      name: Enrich IP
+      script: IPThreatEnrichment
+      type: regular
+      iscommand: true
+      brand: ""
+    scriptarguments:
+      ip:
+        simple: ${inputs.ip}
+    nexttasks:
+      '#none#':
+        - "2"
+  "2":
+    id: "2"
+    taskid: end_task
+    type: title
+    task:
+      id: end_task
+      version: -1
+      name: Done
+      type: title
+    nexttasks: {}
+inputs:
+  - key: ip
+    value: {}
+    required: true
+    description: IP address to enrich
+    playbookInputQuery:
+outputs: []
