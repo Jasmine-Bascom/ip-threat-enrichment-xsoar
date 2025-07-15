@@ -3,6 +3,7 @@
 This project simulates a basic Cortex XSOAR playbook and integration that enriches IP addresses using a public threat intelligence API.
 
 - Uses the XSOAR SDK format for structure.
+- Validates inputs to prevent code vulnerability.
 - Leverages `keyring` for secure API key storage.
 - Enriches data from AbuseIPDB.
 - Includes a `main()` function for compatibility with XSOAR or local CLI testing.
