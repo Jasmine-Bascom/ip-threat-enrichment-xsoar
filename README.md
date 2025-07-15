@@ -106,4 +106,4 @@ This project demonstrates my understanding of SOAR principles and readiness to b
 
 ## Security Note
 
-This project avoids hardcoded credentials. API keys are stored and retrieved using `keyring` for secure local development.
+This project avoids hardcoded credentials. API keys are stored and retrieved using `keyring` for secure local development. Inputs for the CLI version are validated using `ipaddress`.
