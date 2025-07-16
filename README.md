@@ -99,21 +99,26 @@ To adapt fully into XSOAR:
 
 ```
 ip-threat-enrichment-xsoar/
-├── Integrations/
-│   └── IPThreatEnrichment/
-│       └── IPThreatEnrichment.py
-├── Local-Simulation/
+├── Integrations
+│   ├── IPThreatEnrichment
+│   ├── __init__.py
+│   └── __pycache__
+├── Local-Simulation
 │   └── mockPlaybook.yml
-├── Playbooks/
+├── Playbooks
 │   ├── playbookBatchIPEnrichment.yml
 │   ├── playbookIPEnrichment.yml
 │   └── playbookMaliciousIPDecision.yml
 ├── README.md
 ├── requirements.txt
-└── venv/
-    ├── bin/
-    ├── include/
-    ├── lib/
+├── tests
+│   ├── __init__.py
+│   ├── __pycache__
+│   └── test_ip_enrichment.py
+└── venv
+    ├── bin
+    ├── include
+    ├── lib
     └── pyvenv.cfg
 
 ```
