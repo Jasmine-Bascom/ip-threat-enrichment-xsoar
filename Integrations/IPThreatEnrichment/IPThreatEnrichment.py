@@ -64,7 +64,7 @@ def main():
             print(f"Error: '{ip}' is not a valid IP address.")
             sys.exit(1)
 
-        result = ip_enrich_command(ip)
+        result = enrich_ip(ip) 
 
         # In XSOAR:
         # return_results(CommandResults(
