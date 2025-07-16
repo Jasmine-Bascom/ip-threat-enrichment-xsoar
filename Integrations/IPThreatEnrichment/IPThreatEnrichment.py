@@ -13,27 +13,37 @@ def is_valid_ip(ip_str):
     except ValueError:
         return False
 
-def ip_enrich_command(ip: str):
+def call_abuseipdb(ip, api_key):
+    url = f"https://api.abuseipdb.com/api/v2/check"
+    headers = {
+        "Accept": "application/json",
+        "Key": api_key
+    }
+    params = {
+        "ipAddress": ip,
+        "maxAgeInDays": 90
+    }
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
+
+def enrich_ip(ip):
     api_key = keyring.get_password("xsoar", "abuseipdb_api_key")
     if not api_key:
         raise ValueError("API key not found. Please set it using keyring.")
-
-    url = f"https://api.abuseipdb.com/api/v2/check?ipAddress={ip}&maxAgeInDays=90"
-    headers = {
-        "Key": api_key,
-        "Accept": "application/json"
+    if not is_valid_ip(ip):
+        raise ValueError("Invalid IP address")
+    result = call_abuseipdb(ip, api_key)
+    # Process the response JSON to extract relevant fields
+    data = result.get("data", {})
+    enriched = {
+        "IP": ip,
+        "RiskScore": data.get("abuseConfidenceScore"),
+        "Country": data.get("countryCode"),
+        "ISP": data.get("isp"),
+        "Domain": data.get("domain"),
     }
-
-    response = requests.get(url, headers=headers)
-    data = response.json()
-
-    return {
-        'IP': ip,
-        'RiskScore': data['data']['abuseConfidenceScore'],
-        'Country': data['data']['countryCode'],
-        'Domain': data['data'].get('domain'),
-        'ISP': data['data'].get('isp')
-    }
+    return enriched
 
 # This would be your actual entry point in XSOAR
 def main():
