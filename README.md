@@ -56,6 +56,29 @@ Error: API key not found. Please set it using keyring.
 
 ---
 
+## Testing
+
+This project includes a set of automated tests using **pytest** to verify core functionality of the integration code.
+
+### Test Highlights
+- **Input validation** and **API interaction** logic are tested.
+- Tests mock external dependencies (like API key retrieval via `keyring`) to isolate and focus on functionality.
+- For example, the API key retrieval is mocked in tests to ensure validation logic can be tested independently without requiring an actual API key.
+
+### How to Run Tests
+
+1. Activate your virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
+
+2. Run tests with pytest:
+    ```bash
+    pytest
+    ```
+
+---
+
 ## Using in Cortex XSOAR
 
 This script uses a format compatible with XSOAR custom integrations:
