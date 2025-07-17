@@ -58,10 +58,10 @@ Error: API key not found. Please set it using keyring.
 
 ## Testing
 
-This project includes a set of automated tests using **pytest** to verify core functionality of the integration code.
+This project includes a set of automated tests using pytest to verify core functionality of the integration code.
 
 ### Test Highlights
-- **Input validation** and **API interaction** logic are tested.
+- Input validation and API interaction logic are tested.
 - Tests mock external dependencies (like API key retrieval via `keyring`) to isolate and focus on functionality.
 - For example, the API key retrieval is mocked in tests to ensure validation logic can be tested independently without requiring an actual API key.
 
